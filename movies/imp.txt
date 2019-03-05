@@ -1,0 +1,5 @@
+What is GraphQL and Why GraphQL?
+    GraphQL is a data query language developed by Facebook
+    It is not tied to any specific database
+    It provides a way for the client to query from different databases at the same time by requesting what they need
+    It returns the response in the format requested by client
