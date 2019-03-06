@@ -35,3 +35,12 @@ query getMovieInfo {
 }
 
 =======================================================================================================================
+Note:
+
+# schema can be added here or in settings.py file with GRAPHENE = {}
+# path('graphql', GraphQLView.as_view(graphiql=True, schema=schema))
+
+# To enable/disable GraphQL UI a set boolean value GraphQLView.as_view(graphiql=True/False)
+  To disable GraphiQL, simply edit urls.py such that path('graphql/', GraphQLView.as_view(graphiql=True)), becomes path('graphql/', GraphQLView.as_view(graphiql=False))
+
+=======================================================================================================================

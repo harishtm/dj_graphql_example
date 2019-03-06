@@ -20,7 +20,5 @@ from movies.schema import schema
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # schema can be added here or in settings.py file with GRAPHENE = {}
-    # path('graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
     path('graphql', GraphQLView.as_view(graphiql=True)),
 ]

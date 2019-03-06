@@ -36,7 +36,7 @@ class Query(ObjectType):
         name = kwargs.get('name')
 
         if id is not None:
-            return Actor.objects.get(name__iexact=name)
+            return Actor.objects.get(name__icontains=name)
 
         return None
 
