@@ -23,7 +23,7 @@ class Query(ObjectType):
         Resolvers connect the queries in the schema to actual actions done by the database.
         As is standard in Django, we interact with our database via models.
     """
-    actor = graphene.Field(ActorType, id=graphene.Int())
+    actor = graphene.Field(ActorType, name=graphene.String())
     movie = graphene.Field(MovieType, id=graphene.Int())
     actors = graphene.List(ActorType)
     movies = graphene.List(MovieType)
@@ -33,10 +33,10 @@ class Query(ObjectType):
             In the resolve_actor function we retrieve the ID from the query parameters and 
             return the actor from our database with that ID as its primary key
         """
-        id = kwargs.get('id')
+        name = kwargs.get('name')
 
         if id is not None:
-            return Actor.objects.get(pk=id)
+            return Actor.objects.get(name__iexact=name)
 
         return None
 

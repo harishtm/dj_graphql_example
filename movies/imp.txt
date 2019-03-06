@@ -3,3 +3,35 @@ What is GraphQL and Why GraphQL?
     It is not tied to any specific database
     It provides a way for the client to query from different databases at the same time by requesting what they need
     It returns the response in the format requested by client
+
+
+=======================================================================================================================
+Example Query in GraphQL
+
+To get the actor Information
+
+query getActorInfo {
+  actor(name: "Sylvester Stallone") {
+    id
+    name
+  }
+}
+
+To get the Movie Info
+
+query getMovieInfo {
+  movie(id: 1) {
+    id
+    title
+    actors{
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+=======================================================================================================================
