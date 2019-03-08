@@ -59,4 +59,64 @@ class Query(ObjectType):
         return Movie.objects.all()
 
 
-schema = graphene.Schema(query=Query)
+# Mutation Add/Edit
+
+
+class ActorInput(graphene.InputObjectType):
+    id = graphene.ID()
+    name = graphene.String()
+
+
+class MovieInput(graphene.InputObjectType):
+    id = graphene.ID()
+    title = graphene.String()
+    actors = graphene.List(ActorInput)
+    year = graphene.Int()
+
+
+# Create mutations for actors
+class CreateActor(graphene.Mutation):
+
+    class Arguments:
+        inputdata = ActorInput(required=True)
+
+    ok = graphene.Boolean()
+    actor = graphene.Field(ActorType)
+
+    @staticmethod
+    def mutate(root, info, inputdata=None):
+        ok = True
+        actor_instance = Actor(name=inputdata.name)
+        actor_instance.save()
+        return CreateActor(ok=ok, actor=actor_instance)
+
+
+class UpdateActor(graphene.Mutation):
+
+    class Arguments:
+        id = graphene.Int(required=True)
+        inputdata = ActorInput(required=True)
+
+    ok = graphene.Boolean()
+    actor = graphene.Field(ActorType)
+
+    @staticmethod
+    def mutate(root, info, id, inputdata=None):
+        ok = False
+        actor_instance = Actor.objects.get(pk=id)
+        if actor_instance:
+            ok = True
+            actor_instance.name = inputdata.name
+            actor_instance.save()
+            return UpdateActor(ok=ok, actor=actor_instance)
+        return UpdateActor(ok=ok, actor=None)
+
+class Mutation(graphene.ObjectType):
+
+    create_actor = CreateActor.Field()
+    update_actor = UpdateActor.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
+
+

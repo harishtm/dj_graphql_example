@@ -8,7 +8,7 @@ What is GraphQL and Why GraphQL?
 =======================================================================================================================
 Example Query in GraphQL
 
-To get the actor Information
+1. To get the actor Information(Filter)
 
 query getActorInfo {
   actor(name: "Sylvester Stallone") {
@@ -17,7 +17,7 @@ query getActorInfo {
   }
 }
 
-To get the Movie Info
+2. To get the Movie Info(Filter)
 
 query getMovieInfo {
   movie(id: 1) {
@@ -34,6 +34,31 @@ query getMovieInfo {
   }
 }
 
+
+3. To create an actor(Create Object)
+
+mutation createNewActor {
+  createActor(inputdata: {name: "Vinod gouda patil"}) {
+    ok
+    actor {
+      name
+    }
+  }
+}
+
+4. To update an actor(Update object)
+
+mutation updateActor{
+  updateActor(id: 4, inputdata: {name: "Viju"}){
+    ok
+    actor{
+      id
+      name
+    }
+  }
+}
+
+
 =======================================================================================================================
 Note:
 
@@ -43,4 +68,14 @@ Note:
 # To enable/disable GraphQL UI a set boolean value GraphQLView.as_view(graphiql=True/False)
   To disable GraphiQL, simply edit urls.py such that path('graphql/', GraphQLView.as_view(graphiql=True)), becomes path('graphql/', GraphQLView.as_view(graphiql=False))
 
+=======================================================================================================================
+Creating Mutations
+
+A mutation describes what operations can be done to change data on the server.
+
+Mutations rely on two things:
+
+Inputs - special types only used as arguments in a mutation when we want to pass an entire object instead of individual fields.
+
+Payloads - regular types, but by convention we use them as outputs for a mutation so we can easily extend them as the API evolves.
 =======================================================================================================================
