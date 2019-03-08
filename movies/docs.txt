@@ -58,6 +58,32 @@ mutation updateActor{
   }
 }
 
+5. To create a movie object (Create object which containd many to many relationship)
+
+mutation createMovie {
+  createMovie(inputdata : {
+    title: "Cast Way",
+    actors: [{
+      id: 3
+    }]
+    year: 2019
+  }) {
+    ok
+    movie {
+      id
+      title
+      actors {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      year
+    }
+  }
+}
 
 =======================================================================================================================
 Note:

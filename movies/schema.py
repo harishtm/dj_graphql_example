@@ -30,7 +30,7 @@ class Query(ObjectType):
 
     def resolve_actor(self, info, **kwargs):
         """
-            In the resolve_actor function we retrieve the ID from the query parameters and 
+            In the resolve_actor function we retrieve the ID from the query parameters and
             return the actor from our database with that ID as its primary key
         """
         name = kwargs.get('name')
@@ -111,12 +111,87 @@ class UpdateActor(graphene.Mutation):
             return UpdateActor(ok=ok, actor=actor_instance)
         return UpdateActor(ok=ok, actor=None)
 
+
+class CreateMovie(graphene.Mutation):
+
+    class Arguments:
+        inputdata = MovieInput(required=True)
+
+    ok = graphene.Boolean()
+    movie = graphene.Field(MovieType)
+
+    @staticmethod
+    def mutate(root, info, inputdata=None):
+        ok, actors = True, []
+        for actor_input in inputdata.actors:
+            actor_obj = Actor.objects.get(pk=actor_input.id)
+            if actor_obj is None:
+                return CreateMovie(ok=False, movie=None)
+            actors.append(actor_obj)
+        movie_instance = Movie(
+                title=inputdata.title,
+                year=inputdata.year
+            )
+        movie_instance.save()
+        movie_instance.actors.set(actors)
+        movie_instance.save()
+        return CreateMovie(ok=ok, movie=movie_instance)
+
+
+class UpdateMovie(graphene.Mutation):
+
+    class Arguments:
+        id = graphene.Int(required=True)
+        inputdata = MovieInput(required=True)
+
+    ok = graphene.Boolean()
+    movie = graphene.Field(MovieType)
+
+    @staticmethod
+    def mutate(root, info, id, inputdata=None):
+        ok = False
+        movie_instance = Movie.objects.get(pk=id)
+        if movie_instance:
+            ok, actors = True, []
+            for actor_input in inputdata.actors:
+                actor = Actor.objects.get(pk=actor_input.id)
+                if actor is not None:
+                    return CreateMovie(ok=False, movie=None)
+                actors.append(actor)
+            movie_instance.title = inputdata.title
+            movie_instance.year = inputdata.year
+            movie_instance.actors.set(actors)
+            movie_instance.save()
+            return UpdateMovie(ok=ok, movie=movie_instance)
+        return UpdateMovie(ok=ok, movie=None)
+
+
 class Mutation(graphene.ObjectType):
 
     create_actor = CreateActor.Field()
     update_actor = UpdateActor.Field()
+    create_movie = CreateMovie.Field()
+    update_movie = UpdateMovie.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
 
 
+"""
+The other way of registration is
+
+import graphene
+import dj_graphql_exmaple.movies.schema
+
+class Query(dj_graphql_exmaple.movies.schema.Query, graphene.ObjectType):
+    # This class will inherit from multiple Queries
+    # as we begin to add more apps to our project
+    pass
+
+class Mutation(dj_graphql_exmaple.movies.schema.Mutation, graphene.ObjectType):
+    # This class will inherit from multiple Queries
+    # as we begin to add more apps to our project
+    pass
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
+"""
