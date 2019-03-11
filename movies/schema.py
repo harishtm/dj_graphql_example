@@ -155,7 +155,7 @@ class UpdateMovie(graphene.Mutation):
             ok, actors = True, []
             for actor_input in inputdata.actors:
                 actor = Actor.objects.get(pk=actor_input.id)
-                if actor is not None:
+                if actor is None:
                     return CreateMovie(ok=False, movie=None)
                 actors.append(actor)
             movie_instance.title = inputdata.title

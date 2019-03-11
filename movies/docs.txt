@@ -85,6 +85,63 @@ mutation createMovie {
   }
 }
 
+
+6. To update movie object
+
+mutation updateMovie { 
+  updateMovie(id: 2, inputdata: {
+    title: "New Movie",
+    actors: [
+      {
+        id: 3
+      }
+    ]
+    year: 2001
+  }) {
+    ok
+    movie{
+      id
+      title
+      actors {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+      year
+    }
+  }
+}
+
+
+7. To list all movies
+
+query {
+  movies {
+    title
+    year
+    actors {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+8 To list all actors
+
+query{
+  actors {
+    id
+    name
+  }
+}
+
 =======================================================================================================================
 Note:
 
