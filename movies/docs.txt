@@ -6,6 +6,8 @@ What is GraphQL and Why GraphQL?
 
 
 =======================================================================================================================
+http://localhost:8080/graphql
+
 Example Query in GraphQL
 
 1. To get the actor Information(Filter)
