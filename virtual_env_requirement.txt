@@ -115,7 +115,7 @@ greenlet==0.4.15
 gunicorn==19.9.0
 haystack==0.42
 html5lib==0.999999999
-httplib2==0.11.3
+httplib2==0.18.0
 humanize==0.5.1
 idna==2.6
 ijson==2.3
