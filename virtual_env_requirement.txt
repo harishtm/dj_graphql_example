@@ -225,7 +225,7 @@ rainbow-logging-handler==2.2.2
 redis==2.10.6
 requests==2.18.4
 rfc3986==1.2.0
-rsa==3.4.2
+rsa==4.7
 Rx==1.6.1
 s3transfer==0.1.13
 sasl==0.2.1
